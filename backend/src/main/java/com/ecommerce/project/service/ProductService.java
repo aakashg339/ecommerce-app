@@ -9,9 +9,9 @@ import com.ecommerce.project.payload.ProductResponse;
 
 public interface ProductService {
     ProductDTO addProduct(Long categoryId, ProductDTO product);
-    ProductResponse getAllProducts();
-    ProductResponse searchByCategory(Long categoryId);
-    ProductResponse searchProductByKeyword(String keyword);
+    ProductResponse getAllProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+    ProductResponse searchByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrders);
+    ProductResponse searchProductByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String sortOrders);
     ProductDTO updateProduct(Long productId, ProductDTO product);
     ProductDTO deleteProduct(Long productId);
     ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
