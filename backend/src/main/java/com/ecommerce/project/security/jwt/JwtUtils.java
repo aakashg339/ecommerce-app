@@ -1,4 +1,4 @@
-package com.example.securitydemo.jwt;
+package com.ecommerce.project.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
