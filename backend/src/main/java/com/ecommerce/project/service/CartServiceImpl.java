@@ -78,6 +78,8 @@ public class CartServiceImpl implements CartService {
 
         cart.setTotalPrice(cart.getTotalPrice() + (product.getSpecialPrice() * quantity));
 
+        cart.getCartItems().add(newCartItem);
+
         cart = cartRepository.save(cart);
 
         // return updated cart
@@ -109,6 +111,28 @@ public class CartServiceImpl implements CartService {
         Cart newCart = cartRepository.save(cart);
 
         return newCart;
+    }
+
+    @Override
+    public List<CartDTO> getAllCarts() {
+        List<Cart> carts = cartRepository.findAll();
+
+        if(carts.size() == 0) {
+            throw new APIException("No cart exists");
+        }
+
+        List<CartDTO> cartDTOs = carts.stream()
+            .map(cart -> {
+                CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
+                List<ProductDTO> productDTOs = cart.getCartItems().stream()
+                    .map(p -> modelMapper.map(p.getProduct(), ProductDTO.class))
+                    .toList();
+                cartDTO.setProducts(productDTOs);
+                return cartDTO;
+            })
+            .toList();
+        
+        return cartDTOs;
     }
 
 }
