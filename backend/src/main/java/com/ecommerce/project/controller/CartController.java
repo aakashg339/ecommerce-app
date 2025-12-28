@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -45,10 +44,10 @@ public class CartController {
     }
     
     @GetMapping("/carts")
-    public ResponseEntity<List<CartDTO>> getCarts(@RequestParam String param) {
+    public ResponseEntity<List<CartDTO>> getCarts() {
         List<CartDTO> cartDTOs = cartService.getAllCarts();
 
-        return new ResponseEntity<>(cartDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(cartDTOs, HttpStatus.FOUND);
     }
 
     @GetMapping("/carts/users/cart")
@@ -66,7 +65,7 @@ public class CartController {
     public ResponseEntity<CartDTO> updateCartProduct(@PathVariable Long productId, @PathVariable String operation) {
         CartDTO cartDTO = cartService.updateProductQuantityInCart(
             productId, 
-            operation.equals("delete") ? -1 : 1
+            operation.equalsIgnoreCase("delete") ? -1 : 1
         );
         
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);

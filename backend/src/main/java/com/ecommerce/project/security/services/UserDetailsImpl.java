@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,7 +45,7 @@ public class UserDetailsImpl implements UserDetails {
 
         return new UserDetailsImpl(
             user.getUserId(),
-            user.getUsername(),
+            user.getUserName(),
             user.getEmail(),
             user.getPassword(),
             authorities
@@ -59,7 +58,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public @Nullable String getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -96,11 +95,6 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         UserDetailsImpl user = (UserDetailsImpl)o;
         return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
 }
