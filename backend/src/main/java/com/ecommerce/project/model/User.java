@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
@@ -47,7 +48,7 @@ public class User {
     @NotBlank
     @Size(max = 20)
     @Column(name = "username")
-    private String username;
+    private String userName;
 
     @NotBlank
     @Size(max = 50)
@@ -60,9 +61,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User(@NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 50) @Email String email,
+    public User(@NotBlank @Size(max = 20) String userName, @NotBlank @Size(max = 50) @Email String email,
             @NotBlank @Size(max = 120) String password) {
-        this.username = username;
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
@@ -90,6 +91,14 @@ public class User {
     )
     private List<Address> addresses = new ArrayList<>();
 
+    @ToString.Exclude
+    @OneToOne(
+        mappedBy = "user",
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+        orphanRemoval = true
+    )
+    private Cart cart;
+    
     @ToString.Exclude
     @OneToMany(
         mappedBy = "user",
