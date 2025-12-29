@@ -12,12 +12,16 @@ import com.ecommerce.project.model.Address;
 import com.ecommerce.project.model.User;
 import com.ecommerce.project.payload.AddressDTO;
 import com.ecommerce.project.repositories.AddressRepository;
+import com.ecommerce.project.repositories.UserRepository;
 
 @Service
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -78,6 +82,30 @@ public class AddressServiceImpl implements AddressService {
             .toList();
 
         return addressDTOs;
+    }
+
+    @Override
+    public AddressDTO updateAddress(Long addressId, AddressDTO addressDTO) {
+        Address addressFromDB = addressRepository.findById(addressId)
+            .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
+
+        addressFromDB.setCity(addressDTO.getCity());
+        addressFromDB.setPincode(addressDTO.getPincode());
+        addressFromDB.setState(addressDTO.getState());
+        addressFromDB.setCountry(addressDTO.getCountry());
+        addressFromDB.setStreet(addressDTO.getStreet());
+        addressFromDB.setBuildingName(addressDTO.getBuildingName());
+
+        Address updatedAddress = addressRepository.save(addressFromDB);
+
+        User user = addressFromDB.getUser();
+        user.getAddresses().removeIf(address -> address.getAddressId().equals(addressId));
+        user.getAddresses().add(addressFromDB);
+        userRepository.save(user);
+
+        AddressDTO updatedAddressDTO = modelMapper.map(updatedAddress, AddressDTO.class);
+
+        return updatedAddressDTO;
     }
 
 }

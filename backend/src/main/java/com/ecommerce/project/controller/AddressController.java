@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -61,6 +63,13 @@ public class AddressController {
         List<AddressDTO> addressDTOs = addressService.getUserAddresses(user);
         
         return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
+    }
+
+    @PutMapping("/addresses/{addressId}")
+    public ResponseEntity<AddressDTO> updateAddress(@PathVariable Long addressId, @RequestBody AddressDTO addressDTO) {
+        AddressDTO updatedAddressDTO = addressService.updateAddress(addressId, addressDTO);
+        
+        return new ResponseEntity<>(updatedAddressDTO, HttpStatus.OK);
     }
 
 }
