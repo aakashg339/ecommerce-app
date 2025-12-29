@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -44,9 +43,9 @@ public class Order {
 
     private LocalDate orderDate;
 
-    // @OneToOne
-    // @JoinColumn(name = "payment_id")
-    // private Payment payment;
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
     private Double totalAmount;
 
