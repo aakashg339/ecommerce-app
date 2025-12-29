@@ -15,6 +15,7 @@ import com.ecommerce.project.util.AuthUtil;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,12 +46,19 @@ public class AddressController {
         
         return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
     }
+
+    @GetMapping("/addresses/{addressId}")
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable Long addressId) {
+        AddressDTO addressDTO = addressService.getAddressById(addressId);
+        
+        return new ResponseEntity<>(addressDTO, HttpStatus.OK);
+    }
     
     @GetMapping("/users/addresses")
-    public ResponseEntity<List<AddressDTO>> getAddressByUser() {
+    public ResponseEntity<List<AddressDTO>> getUserAddresses() {
         User user = authUtil.loggedInUser();
         
-        List<AddressDTO> addressDTOs = addressService.getAddressByUser(user);
+        List<AddressDTO> addressDTOs = addressService.getUserAddresses(user);
         
         return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
     }

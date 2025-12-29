@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.project.exceptions.APIException;
+import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.Address;
 import com.ecommerce.project.model.User;
 import com.ecommerce.project.payload.AddressDTO;
@@ -55,8 +56,18 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<AddressDTO> getAddressByUser(User user) {
-        List<Address> addresses = addressRepository.findByUserId(user.getUserId());
+    public AddressDTO getAddressById(Long addressId) {
+        Address address = addressRepository.findById(addressId)
+            .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
+
+        AddressDTO addressDTO = modelMapper.map(address, AddressDTO.class);
+
+        return addressDTO;
+    }
+
+    @Override
+    public List<AddressDTO> getUserAddresses(User user) {
+        List<Address> addresses = user.getAddresses();
 
         if(addresses.size() == 0) {
             throw new APIException("No address exists for user: " + user.getUserName());
