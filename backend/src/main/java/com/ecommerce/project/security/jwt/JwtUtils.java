@@ -48,6 +48,17 @@ public class JwtUtils {
         }
     }
 
+    // Getting JWT From header
+    public String getJwtFromHeader(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+
+        if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(bearerToken.indexOf(' ') + 1);
+        }
+
+        return null;
+    }
+
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrinciple) {
         String jwt = generateTokenFromUsername(userPrinciple);
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt)
