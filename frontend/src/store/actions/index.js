@@ -3,7 +3,6 @@ import api from "../../api/api";
 export const fetchProducts = () => async (dispatch) => {
     try {
         const { data } = await api.get("/public/products");
-        console.log(data);
         dispatch({
             type: "FETCH_PRODUCTS",
             payload: data.content,
@@ -14,6 +13,6 @@ export const fetchProducts = () => async (dispatch) => {
             lastPage:data.lastPage,
         });
     } catch (error) {
-        console.log(error);
+        console.log("Error fetching products : ", error);
     }
 };
