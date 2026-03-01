@@ -3,13 +3,15 @@ import ProductCard from "./ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import Filter from "./Filter";
 import useProductFilter from "./useProductFilter";
+import { fetchCategories } from "../store/actions";
+import { useEffect } from "react";
 
 const Products = () => {
     const { isLoading, errorMessage } = useSelector(
         (state) => state.errors
     );
 
-    const {products} = useSelector(
+    const {products, categories} = useSelector(
         (state) => state.products
     );
 
@@ -17,13 +19,13 @@ const Products = () => {
 
    useProductFilter();
 
-//    useEffect(() => {
-//     dispatch(fetchProducts());
-//    },[dispatch]);
+   useEffect(() => {
+    dispatch(fetchCategories());
+   },[dispatch]);
 
     return (
         <div className="lg:px-14 sm:px-8 px-14 py-14 2xl:w-[90%] 2xl:mx-auto">
-            <Filter />
+            <Filter categories={categories ? categories : []} />
             {
                 isLoading ? (
                     <p>It is loading...</p>
