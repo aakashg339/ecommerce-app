@@ -60,6 +60,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain defauSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
+            .cors(cors -> {})
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session
                 -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -68,7 +69,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/v3/api-docs/**").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers("/swagger-ui/**").permitAll()
-                    //.requestMatchers("/api/public/**").permitAll()
+                    .requestMatchers("/api/public/**").permitAll()
                     //.requestMatchers("/api/admin/**").permitAll()
                     .requestMatchers("/api/test/**").permitAll()
                     .requestMatchers("/images/**").permitAll()
