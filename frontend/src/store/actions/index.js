@@ -45,3 +45,31 @@ export const fetchCategories = (queryString) => async (dispatch) => {
         });
     }
 };
+
+export const addToCart = (data, qty = 1, toast) => 
+    (dispatch, getState) => {
+        // Find the products
+        const { products } = getState().products;
+        const getProducts = products.find(
+            (item) => item.productId === data.productId
+        );
+
+        // Check for stocks
+        const iQuantityExist = getProducts.quantity >= qty;
+        
+        // If in stock -> add
+        if(iQuantityExist) {
+            dispatch({
+                type: "ADD_CART",
+                payload: {
+                    ...data,
+                    quantity: qty,
+                }
+            });
+            toast.success(`${data?.productName} added to the cart`);
+            localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
+        } else {
+            // If not -> error
+            toast.error("Out of stock");
+        }
+};
