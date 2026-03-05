@@ -1,3 +1,5 @@
+import ProductCard from "./shared/ProductCard";
+
 const products = [
     {
         image: "https://embarkx.com/sample/placeholder.png",

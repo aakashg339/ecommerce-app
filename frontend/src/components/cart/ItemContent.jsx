@@ -3,6 +3,9 @@ import SetQuantity from "./SetQuantity";
 import { decreaseCartQuantity, increaseCartQuantity, removeFromCart } from "../../store/actions";
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "../../utils/truncateText"
+import { useState } from "react";
+import { HiOutlineTrash } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const ItemContent = ({
     productId, 
