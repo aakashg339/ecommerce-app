@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import SetQuantity from "./SetQuantity";
 import { decreaseCartQuantity, increaseCartQuantity, removeFromCart } from "../../store/actions";
+import { formatPrice } from "../../utils/formatPrice";
+import truncateText from "../../utils/truncateText"
 
 const ItemContent = ({
     productId, 
