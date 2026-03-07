@@ -4,9 +4,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../shared/InputField";
 import { useDispatch } from "react-redux";
-import { authenticateSignInUser } from "../../store/actions";
 import toast from "react-hot-toast";
-import Spinners from "../shared/Spinners";
 
 const LogIn = () => {
     const navigate = useNavigate();
@@ -67,7 +65,7 @@ const LogIn = () => {
                 type="submit">
                 {loader ? (
                     <>
-                    <Spinners /> Loading...
+                    Loading...
                     </>
                 ) : (
                     <>Login</>
