@@ -6,6 +6,7 @@ import InputField from '../shared/InputField';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { registerNewUser } from '../../store/actions';
+import Spinners from '../shared/Spinners';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -80,7 +81,7 @@ const Register = () => {
                 type="submit">
                 {loader ? (
                     <>
-                    Loading...
+                    <Spinners /> Loading...
                     </>
                 ) : (
                     <>Register</>
