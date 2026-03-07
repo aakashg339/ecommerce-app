@@ -5,9 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import InputField from "../shared/InputField";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { authenticateSignInUser } from "../../store/actions";
 
 const LogIn = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [loader, setLoader] = useState(false);
 
     const {
@@ -21,6 +23,7 @@ const LogIn = () => {
 
     const loginHandler = async (data) => {
         console.log("Login Click");
+        dispatch(authenticateSignInUser(data, toast, reset, navigate, setLoader));
     };
 
     return (
