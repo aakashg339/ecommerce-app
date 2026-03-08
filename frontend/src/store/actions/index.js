@@ -172,7 +172,7 @@ export const addUpdateUserAddress =
                 dispatch({ type: "BUTTON_LOADER" });
 
                 try {
-                    const { data } = await api.post("/addreses", sendData);
+                    const { data } = await api.post("/addresses", sendData);
                     toast.success("Address saved Successfully");
                 } catch (error) {
                     console.log(error);
