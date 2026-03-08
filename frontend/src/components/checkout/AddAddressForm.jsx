@@ -5,6 +5,7 @@ import { FaAddressCard } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinners from '../shared/Spinners';
 import toast from 'react-hot-toast';
+import { addUpdateUserAddress } from '../../store/actions';
 
 const AddAddressForm = ({ address, setOpenAddressModal }) => {
     const dispatch = useDispatch();
@@ -20,7 +21,12 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
         });
 
         const onSaveAddressHandler = async (data) => {
-            console.log("Clicked Save addredd handler")
+            dispatch(addUpdateUserAddress(
+                data,
+                toast,
+                address?.addressId,
+                setOpenAddressModal
+            ));
         };
 
   return (
