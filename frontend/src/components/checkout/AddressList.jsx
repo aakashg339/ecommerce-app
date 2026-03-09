@@ -2,11 +2,11 @@ import React from 'react'
 import { FaBuilding, FaCheckCircle, FaEdit, FaStreetView, FaTrash } from 'react-icons/fa';
 import { MdLocationCity, MdPinDrop, MdPublic } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux'
-// import { selectUserCheckoutAddress } from '../../store/actions';
+import { selectUserCheckoutAddress } from '../../store/actions';
 
 const AddressList = ({ addresses, setSelectedAddress, setOpenAddressModal, setOpenDeleteModal }) => {
     const dispatch = useDispatch();
-    const selectedUserCheckoutAddress = addresses[0];
+    const { selectedUserCheckoutAddress } = useSelector((state) => state.auth);
 
     const onEditButtonHandler = (addresses) => {
         setSelectedAddress(addresses);
@@ -18,6 +18,7 @@ const AddressList = ({ addresses, setSelectedAddress, setOpenAddressModal, setOp
     };
 
     const handleAddressSelection = (addresses) => {
+      dispatch(selectUserCheckoutAddress(addresses));
     };
 
   return (
