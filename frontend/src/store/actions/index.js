@@ -168,13 +168,24 @@ export const logOutUser =
 export const addUpdateUserAddress =
     (sendData, toast, addressId, setOpenAddressModal) =>
         async (dispatch, getState) => {
-            // const { user } = getState().auth;
+            /*
+            const { user } = getState().auth;
+            await api.post(`/addresses`, sendData, {
+                headers: { Authorization: "Bearer " + user.jwtToken },
+                });
+            */
+            
             dispatch({ type: "BUTTON_LOADER" });
 
             try {
-                const { data } = await api.post("/addresses", sendData);
-                toast.success("Address saved Successfully");
-                dispatch({ type: "IS_SUCCESS" });
+                if (!addressId) {
+                    const { data } = await api.post("/addresses", sendData);
+                } else {
+                    await api.put(`/addresses/${addressId}`, sendData);
+                }
+                dispatch(getUserAddresses());
+                toast.success("Address saved successfully");
+                dispatch({ type:"IS_SUCCESS" });
             } catch (error) {
                 console.log(error);
                 toast.error(error?.response?.data?.message || "Internal Server Error");

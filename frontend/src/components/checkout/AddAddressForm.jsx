@@ -29,6 +29,17 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
             ));
         };
 
+        useEffect(() => {
+            if(address?.addressId) {
+                setValue("buildingName", address?.buildingName);
+                setValue("city", address?.city);
+                setValue("street", address?.street);
+                setValue("state", address?.state);
+                setValue("pincode", address?.pincode);
+                setValue("country", address?.country);
+            }
+        }, [address]);
+
   return (
     <div className="">
             <form
