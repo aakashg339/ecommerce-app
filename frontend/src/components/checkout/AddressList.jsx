@@ -15,6 +15,7 @@ const AddressList = ({ addresses, setSelectedAddress, setOpenAddressModal, setOp
 
     const onDeleteButtonHandler = (addresses) => {
         setSelectedAddress(addresses);
+        setOpenDeleteModal(true);
     };
 
     const handleAddressSelection = (addresses) => {
