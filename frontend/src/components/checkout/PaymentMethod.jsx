@@ -10,10 +10,6 @@ const PaymentMethod = () => {
     const { isLoading, errorMessage } = useSelector((state) => state.errors);
 
     useEffect(() => {
-        console.log(cart);
-        console.log(cart.length);
-        console.log(cartId);
-        console.log(errorMessage);
         if(cart.length > 0 && !cartId && !errorMessage) {
             const sendCartItems = cart.map((item) => {
                 return {

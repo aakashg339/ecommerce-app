@@ -39,6 +39,8 @@ export const cartReducer = (state = initialState, action) => {
                 cart: state.cart.filter(
                     (item) => item.productId !== action.payload.productId
                 ),
+                totalPrice: 0,
+                cartId: null
             };
 
         case "GET_USER_CART_PRODUCTS":
