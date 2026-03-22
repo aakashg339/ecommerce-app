@@ -164,3 +164,138 @@ export const logOutUser =
             localStorage.removeItem("auth");
             navigate("/login");
         };
+
+export const addUpdateUserAddress =
+    (sendData, toast, addressId, setOpenAddressModal) =>
+        async (dispatch, getState) => {
+            /*
+            const { user } = getState().auth;
+            await api.post(`/addresses`, sendData, {
+                headers: { Authorization: "Bearer " + user.jwtToken },
+                });
+            */
+            
+            dispatch({ type: "BUTTON_LOADER" });
+
+            try {
+                if (!addressId) {
+                    const { data } = await api.post("/addresses", sendData);
+                } else {
+                    await api.put(`/addresses/${addressId}`, sendData);
+                }
+                dispatch(getUserAddresses());
+                toast.success("Address saved successfully");
+                dispatch({ type:"IS_SUCCESS" });
+            } catch (error) {
+                console.log(error);
+                toast.error(error?.response?.data?.message || "Internal Server Error");
+                dispatch({ type: "IS_ERROR", payload: null });
+            } finally {
+                setOpenAddressModal(false);
+            }
+        };
+
+export const deleteUserAddress = 
+    (toast, addressId, setOpenDeleteModal) => 
+        async (dispatch, getState) => {
+            try {
+                dispatch({ type: "BUTTON_LOADER" });
+                await api.delete(`/addresses/${addressId}`);
+                dispatch({ type: "IS_SUCCESS" });
+                dispatch(getUserAddresses());
+                dispatch(clearCheckoutAddress());
+                toast.success("Address deleted successfully");
+            } catch (error) {
+                console.log("Error fetching address : ", error);
+                dispatch({ 
+                    type: "IS_ERROR",
+                    payload: error?.response?.data?.message || "Some error occured",
+                });
+            } finally {
+                setOpenDeleteModal(false);
+            }
+        };
+
+export const clearCheckoutAddress = 
+    () => {
+        return {
+            type: "REMOVE_CHECKOUT_ADDRESS"
+        }
+    }
+
+export const getUserAddresses = 
+    (queryString) => 
+        async (dispatch, getState) => {
+            try {
+                dispatch({ type: "IS_FETCHING" });
+                const { data } = await api.get(`/addresses`);
+                dispatch({
+                    type: "USER_ADDRESS",
+                    payload: data
+                });
+                dispatch({ type: "IS_SUCCESS" });
+            } catch (error) {
+                console.log("Error fetching address : ", error);
+                dispatch({ 
+                    type: "IS_ERROR",
+                    payload: error?.response?.data?.message || "Unable to fetch user addresses",
+                });
+            }
+        };
+
+export const selectUserCheckoutAddress = 
+    (address) => {
+        return {
+            type: "SELECT_CHECKOUT_ADDRESS",
+            payload: address
+        };
+    };
+
+export const addPaymentMethod = 
+    (method) => {
+        return {
+            type: "ADD_PAYMENT_METHOD",
+            payload: method
+        };
+    }
+
+export const createUserCart = 
+    (sendCartItems) => 
+        async (dispatch, getState) => {
+            try {
+                dispatch({ type: "IS_FETCHING" });
+                await api.post('/cart/create', sendCartItems);
+                await dispatch(getUserCart());
+            } catch (error) {
+                console.log("Error fetching address : ", error);
+                dispatch({ 
+                    type: "IS_ERROR",
+                    payload: error?.response?.data?.message || "Unable to create cart items",
+                });
+            }
+        };
+
+export const getUserCart = 
+    () => 
+        async (dispatch, getState) => {
+            try {
+                dispatch({ type: "IS_FETCHING" });
+                const { data } = await api.get('/carts/users/cart');
+                
+                dispatch({
+                    type: "GET_USER_CART_PRODUCTS",
+                    payload: data.products,
+                    totalPrice: data.totalPrice,
+                    cartId: data.cartId
+                });
+
+                localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
+                dispatch({ type: "IS_SUCCESS" });
+            } catch (error) {
+                console.log("Error fetching address : ", error);
+                dispatch({ 
+                    type: "IS_ERROR",
+                    payload: error?.response?.data?.message || "Unable to fetch cart items",
+                });
+            }
+        };
