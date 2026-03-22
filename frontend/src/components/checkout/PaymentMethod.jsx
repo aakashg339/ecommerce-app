@@ -18,8 +18,6 @@ const PaymentMethod = () => {
                 };
             });
 
-            console.log("hello1");
-
             dispatch(createUserCart(sendCartItems));
         }
     }, [dispatch, cartId]);
